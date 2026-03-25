@@ -80,3 +80,4 @@ if __name__ == "__main__":
     test_id = 19995  # Avatar
     url = fetch_poster(test_id)
     print(f"Poster URL for movie ID {test_id}: {url}")
+    
