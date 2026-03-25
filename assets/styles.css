@@ -1,0 +1,270 @@
+/* Netflix-Inspired Dark Theme Styles */
+
+:root {
+  --netflix-black: #141414;
+  --netflix-red: #E50914;
+  --netflix-gray: #B3B3B3;
+  --netflix-dark-gray: #221f1f;
+  --netflix-light: #ffffff;
+}
+
+/* Main background */
+body, [data-testid="stAppViewContainer"] {
+  background-color: var(--netflix-black) !important;
+}
+
+[data-testid="stMainBlockContainer"] {
+  background-color: var(--netflix-black) !important;
+}
+
+/* Text colors */
+body, p, span, li {
+  color: var(--netflix-light) !important;
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--netflix-light) !important;
+}
+
+/* Primary accent color for important elements */
+.stButton > button {
+  background-color: var(--netflix-red) !important;
+  color: var(--netflix-light) !important;
+  border: none !important;
+  border-radius: 4px !important;
+  font-weight: 600 !important;
+  padding: 0.5rem 1.5rem !important;
+  transition: all 0.3s ease !important;
+}
+
+.stButton > button:hover {
+  background-color: #c1070c !important;
+  transform: scale(1.02) !important;
+  box-shadow: 0 4px 12px rgba(229, 9, 20, 0.4) !important;
+}
+
+.stButton > button:active {
+  background-color: #a80710 !important;
+}
+
+/* Input fields */
+.stTextInput > div > div > input,
+.stSelectbox > div > div > select {
+  background-color: var(--netflix-dark-gray) !important;
+  color: var(--netflix-light) !important;
+  border: 1px solid var(--netflix-gray) !important;
+  border-radius: 4px !important;
+  padding: 10px !important;
+}
+
+.stTextInput > div > div > input::placeholder,
+.stSelectbox > div > div > select::placeholder {
+  color: var(--netflix-gray) !important;
+}
+
+.stTextInput > div > div > input:focus,
+.stSelectbox > div > div > select:focus {
+  border-color: var(--netflix-red) !important;
+  box-shadow: 0 0 8px rgba(229, 9, 20, 0.3) !important;
+}
+
+/* Selectbox dropdown styling */
+[data-testid="stSelectbox"] div div,
+[data-testid="stSelectbox"] [role="listbox"] {
+  background-color: var(--netflix-dark-gray) !important;
+}
+
+[data-testid="stSelectbox"] [role="option"] {
+  background-color: var(--netflix-dark-gray) !important;
+  color: var(--netflix-light) !important;
+}
+
+[data-testid="stSelectbox"] [role="option"]:hover {
+  background-color: var(--netflix-red) !important;
+}
+
+/* Sidebar */
+[data-testid="stSidebar"] {
+  background-color: var(--netflix-dark-gray) !important;
+  border-right: 1px solid rgba(229, 9, 20, 0.2) !important;
+}
+
+[data-testid="stSidebar"] [data-testid="stSelectbox"] > div > div {
+  background-color: var(--netflix-black) !important;
+}
+
+/* Movie Card Styles */
+.movie-card {
+  position: relative;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--netflix-dark-gray);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.movie-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(229, 9, 20, 0.5);
+}
+
+.movie-poster {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  transition: filter 0.3s ease;
+}
+
+.movie-card:hover .movie-poster {
+  filter: brightness(1.1);
+  box-shadow: 0 0 12px rgba(229, 9, 20, 0.6);
+}
+
+.movie-title {
+  color: var(--netflix-light);
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 8px;
+  margin-bottom: 4px;
+}
+
+.movie-rating {
+  color: var(--netflix-red);
+  font-weight: 700;
+  font-size: 0.85rem;
+  padding: 0 8px;
+  margin-bottom: 4px;
+}
+
+.movie-genres {
+  color: var(--netflix-gray);
+  font-size: 0.75rem;
+  padding: 0 8px 8px;
+}
+
+/* Expandable sections */
+[data-testid="stExpanderDetails"] {
+  background-color: var(--netflix-dark-gray) !important;
+  border-left: 3px solid var(--netflix-red) !important;
+}
+
+/* Tabs */
+[data-baseweb="tab-list"] {
+  border-bottom: 1px solid var(--netflix-gray) !important;
+}
+
+[data-baseweb="tab"] {
+  color: var(--netflix-gray) !important;
+}
+
+[aria-selected="true"] > div > div {
+  color: var(--netflix-red) !important;
+  border-bottom: 3px solid var(--netflix-red) !important;
+}
+
+/* Spinner and loading animations */
+[data-testid="stSpinner"] > div {
+  border-color: var(--netflix-red) !important;
+  border-right-color: transparent !important;
+}
+
+/* Links */
+a {
+  color: var(--netflix-red) !important;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #ff4444 !important;
+  text-decoration: underline;
+}
+
+/* Error and Info messages */
+[data-testid="stAlert"] {
+  background-color: var(--netflix-dark-gray) !important;
+  border-left: 4px solid var(--netflix-red) !important;
+}
+
+[data-testid="stWarningBox"],
+[data-testid="stErrorBox"] {
+  background-color: rgba(229, 9, 20, 0.1) !important;
+  border-left-color: var(--netflix-red) !important;
+}
+
+/* Horizontal rules */
+hr {
+  border-color: rgba(229, 9, 20, 0.3) !important;
+}
+
+/* Table styling */
+.stDataFrame {
+  background-color: var(--netflix-dark-gray) !important;
+  border: 1px solid var(--netflix-gray) !important;
+}
+
+tbody tr:hover {
+  background-color: rgba(229, 9, 20, 0.1) !important;
+}
+
+/* Metric style (if used) */
+[data-testid="stMetricContainer"] {
+  background-color: var(--netflix-dark-gray) !important;
+  border: 1px solid rgba(229, 9, 20, 0.3) !important;
+  border-radius: 8px !important;
+  padding: 1rem !important;
+}
+
+/* Column container */
+[data-testid="column"] {
+  background-color: transparent !important;
+}
+
+/* Responsive adjustments for movie cards */
+@media (max-width: 1200px) {
+  .movie-card {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.movie-card {
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--netflix-dark-gray);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--netflix-red);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c1070c;
+}
