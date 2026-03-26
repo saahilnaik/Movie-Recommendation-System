@@ -6,6 +6,7 @@ Fetches movie posters from The Movie Database API.
 import os
 import requests
 import logging
+import time
 from typing import Optional
 
 from dotenv import load_dotenv
@@ -36,9 +37,9 @@ def fetch_poster(movie_id: int) -> str:
         str: Full poster image URL or placeholder if unavailable
     
     Note:
-        - Reads TMDB_API_KEY from environment variables
+        - Reads TMDB_API_KEY from environment variables or .env
         - Returns placeholder on any failure without crashing
-        - Includes retry logic with timeout
+        - Includes retry logic with timeout and backoff
     """
     api_key = os.getenv("TMDB_API_KEY")
     
@@ -48,35 +49,43 @@ def fetch_poster(movie_id: int) -> str:
     
     url = f"{TMDB_BASE_URL}/{movie_id}"
     params = {"api_key": api_key}
-    
-    try:
-        # Fetch with timeout and retry logic
-        response = requests.get(url, params=params, timeout=2)
-        response.raise_for_status()
-        
-        data = response.json()
-        
-        # Construct poster URL
-        poster_path = data.get("poster_path")
-        if poster_path:
-            return f"{POSTER_BASE_URL}{poster_path}"
-        else:
+    max_attempts = 4
+    wait_seconds = 1
+
+    for attempt in range(1, max_attempts + 1):
+        try:
+            response = requests.get(url, params=params, timeout=5)
+            response.raise_for_status()
+
+            data = response.json()
+            poster_path = data.get("poster_path")
+            if poster_path:
+                return f"{POSTER_BASE_URL}{poster_path}"
+
             logger.warning(f"No poster found for movie ID {movie_id}")
             return PLACEHOLDER_URL
-            
-    except requests.exceptions.Timeout:
-        logger.warning(f"Request timeout for movie ID {movie_id}")
-        return PLACEHOLDER_URL
-    except requests.exceptions.RequestException as e:
-        logger.warning(f"Failed to fetch poster for movie ID {movie_id}: {e}")
-        return PLACEHOLDER_URL
-    except ValueError:
-        # JSON decode error
-        logger.warning(f"Invalid JSON response for movie ID {movie_id}")
-        return PLACEHOLDER_URL
-    except Exception as e:
-        logger.warning(f"Unexpected error fetching poster for movie ID {movie_id}: {e}")
-        return PLACEHOLDER_URL
+
+        except requests.exceptions.Timeout:
+            logger.warning(f"Timeout fetching poster for movie ID {movie_id}, attempt {attempt}/{max_attempts}")
+        except requests.exceptions.ConnectionError as e:
+            logger.warning(f"Connection error for movie ID {movie_id}, attempt {attempt}/{max_attempts}: {e}")
+        except requests.exceptions.RequestException as e:
+            logger.warning(f"Request error for movie ID {movie_id}, attempt {attempt}/{max_attempts}: {e}")
+            break
+        except ValueError:
+            logger.warning(f"Invalid JSON response for movie ID {movie_id}")
+            break
+        except Exception as e:
+            logger.warning(f"Unexpected error fetching poster for movie ID {movie_id}: {e}")
+            break
+
+        # Exponential backoff but do not wait after last attempt
+        if attempt < max_attempts:
+            time.sleep(wait_seconds)
+            wait_seconds *= 2
+
+    # Final fallback after all retries
+    return PLACEHOLDER_URL
 
 
 if __name__ == "__main__":
