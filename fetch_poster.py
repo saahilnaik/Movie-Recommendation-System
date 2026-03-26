@@ -8,6 +8,11 @@ import requests
 import logging
 from typing import Optional
 
+from dotenv import load_dotenv
+
+# Load .env config, if present
+load_dotenv()
+
 # Configure logging
 logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger(__name__)

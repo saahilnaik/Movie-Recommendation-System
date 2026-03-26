@@ -250,6 +250,30 @@ Imagine arrows pointing from the origin in a space:
 pip install streamlit --upgrade
 ```
 
+### Problem: "TMDB_API_KEY not set" (poster fallback warning)
+**Explanation:** `fetch_poster.py` reads `TMDB_API_KEY` from the environment. If not set, it returns a placeholder poster URL instead of failing.
+
+**Solution:** Set your API key before running Streamlit:
+
+**Linux/macOS:**
+```bash
+export TMDB_API_KEY="your_api_key_here"
+```
+**Windows PowerShell:**
+```powershell
+$env:TMDB_API_KEY = "your_api_key_here"
+```
+
+Alternatively, in repo root create a `.env` file with:
+```ini
+TMDB_API_KEY=your_api_key_here
+```
+
+Then run:
+```bash
+streamlit run app.py
+```
+
 ### Problem: "Model files not found!"
 **Solution:** Make sure the `model/` folder contains:
 - `movies.pkl` (Should be ~10+ MB)
