@@ -31,6 +31,13 @@ def load_all_movies():
         return sorted(movies['title'].tolist())
     except FileNotFoundError:
         return []
+    except (pickle.UnpicklingError, EOFError):
+        st.error(
+            "⚠️ Model file appears corrupted or not downloaded properly. "
+            "If you are using Git LFS, run `git lfs pull` and restart the app. "
+            "If the problem persists, re-clone the repository."
+        )
+        st.stop()
 
 
 # Page Configuration

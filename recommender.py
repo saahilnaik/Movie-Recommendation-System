@@ -19,18 +19,29 @@ def load_models():
         tuple: (similarity_matrix, movies_df, list_of_titles)
     """
     model_path = Path(__file__).parent / "model"
-    
-    # Load similarity matrix
-    with open(model_path / "similarity.pkl", "rb") as f:
-        similarity = pickle.load(f)
-    
-    # Load movies dataframe
-    with open(model_path / "movies.pkl", "rb") as f:
-        movies = pickle.load(f)
-    
+    try:
+        # Load similarity matrix
+        with open(model_path / "similarity.pkl", "rb") as f:
+            similarity = pickle.load(f)
+
+        # Load movies dataframe
+        with open(model_path / "movies.pkl", "rb") as f:
+            movies = pickle.load(f)
+
+    except FileNotFoundError as e:
+        raise ValueError(
+            f"Model files not found. Ensure model directory exists and contains similarity.pkl and movies.pkl. {e}"
+        )
+    except (pickle.UnpicklingError, EOFError) as e:
+        raise ValueError(
+            "Model file corrupted or not downloaded properly. "
+            "Run `git lfs pull` and restart the app. "
+            f"Error: {e}"
+        )
+
     # Create title list for matching
     titles = movies['title'].tolist()
-    
+
     return similarity, movies, titles
 
 

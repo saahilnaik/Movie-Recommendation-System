@@ -257,6 +257,23 @@ pip install streamlit --upgrade
 
 If missing, you need to train the model first using the Jupyter notebook.
 
+### Problem: "_pickle.UnpicklingError: invalid load key, 'v'" or corrupted model file
+**Solution:** This happens when the `.pkl` files contain Git LFS pointers instead of binary data.
+1. Ensure Git LFS is set up:
+   ```bash
+   git lfs install
+   git lfs pull
+   ```
+2. Re-run the app:
+   ```bash
+   streamlit run app.py
+   ```
+3. If it still fails, delete `model/*.pkl`, and re-clone the repository with Git LFS enabled:
+   ```bash
+   git clone https://github.com/saahilnaik/Movie-Recommendation-System.git
+   git lfs pull
+   ```
+
 ### Problem: Movie not found in recommendations
 **Solution:** The movie database might not have that movie. Try:
 - Using a more popular movie title
